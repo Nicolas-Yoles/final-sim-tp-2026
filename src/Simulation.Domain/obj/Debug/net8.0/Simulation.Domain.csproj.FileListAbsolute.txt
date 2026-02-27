@@ -1,0 +1,12 @@
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\bin\Debug\net8.0\Simulation.Domain.deps.json
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\bin\Debug\net8.0\Simulation.Domain.dll
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\bin\Debug\net8.0\Simulation.Domain.pdb
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\obj\Debug\net8.0\Simulation.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\obj\Debug\net8.0\Simulation.Domain.AssemblyInfoInputs.cache
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\obj\Debug\net8.0\Simulation.Domain.AssemblyInfo.cs
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\obj\Debug\net8.0\Simulation.Domain.csproj.CoreCompileInputs.cache
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\obj\Debug\net8.0\Simulation.Domain.sourcelink.json
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\obj\Debug\net8.0\Simulation.Domain.dll
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\obj\Debug\net8.0\refint\Simulation.Domain.dll
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\obj\Debug\net8.0\Simulation.Domain.pdb
+C:\Users\nicoy\code\final-sim-tp-2026\src\Simulation.Domain\obj\Debug\net8.0\ref\Simulation.Domain.dll

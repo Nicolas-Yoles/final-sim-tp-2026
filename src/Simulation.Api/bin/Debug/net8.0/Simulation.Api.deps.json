@@ -1,0 +1,50 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Simulation.Api/1.0.0": {
+        "dependencies": {
+          "Simulation.Application": "1.0.0",
+          "Simulation.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Simulation.Api.dll": {}
+        }
+      },
+      "Simulation.Application/1.0.0": {
+        "dependencies": {
+          "Simulation.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Simulation.Application.dll": {}
+        }
+      },
+      "Simulation.Domain/1.0.0": {
+        "runtime": {
+          "Simulation.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Simulation.Api/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Simulation.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Simulation.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
