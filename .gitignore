@@ -1,0 +1,12 @@
+# Carpetas de salida de compilación
+[Bb]in/
+[Oo]bj/
+
+# Archivos específicos de usuario o temporales
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos de caché de herramientas
+.vs/
+.idea/

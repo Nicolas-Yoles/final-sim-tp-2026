@@ -53,8 +53,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj": {
-              "projectPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj"
+            "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj": {
+              "projectPath": "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj"
             }
           }
         }

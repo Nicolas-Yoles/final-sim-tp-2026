@@ -31,8 +31,8 @@
               "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Application\\Simulation.Application.csproj": {
                 "projectPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Application\\Simulation.Application.csproj"
               },
-              "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj": {
-                "projectPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj"
+              "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj": {
+                "projectPath": "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj"
               }
             }
           }
@@ -98,8 +98,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj": {
-                "projectPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj"
+              "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj": {
+                "projectPath": "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj"
               }
             }
           }
@@ -138,14 +138,14 @@
         }
       }
     },
-    "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj": {
+    "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj",
+        "projectUniqueName": "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj",
         "projectName": "Simulation.Domain",
-        "projectPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj",
+        "projectPath": "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\Simulation.Domain.csproj",
         "packagesPath": "C:\\Users\\nicoy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\obj\\",
+        "outputPath": "c:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nicoy\\AppData\\Roaming\\NuGet\\NuGet.Config",
