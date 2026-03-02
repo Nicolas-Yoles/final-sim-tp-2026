@@ -5,82 +5,176 @@ namespace Simulation.Application
     public class SimulationService : ISimulationService
     {
         private readonly Random _random;
+        private long _clock = 0;
 
         public SimulationService(Random? random = null)
         {
             _random = random ?? new Random();
         }
 
-        public SimulationResult RunSimulation(int months = 30, int sellers = 3)
+        public SimulationResult RunSimulation(SimulationRequest request)
         {
+            // Validar probabilidades
+            ValidateDistributions(request.VehicleDistribution, request.SalesQuantityDistribution);
+
+            _clock = 0;
             var details = new List<MonthlyDetail>();
-            for (int m = 1; m <= months; m++)
+            var events = new List<SimulationEvent>();
+
+            for (int m = 1; m <= request.Months; m++)
             {
-                decimal totalCommission = 0;
-                for (int s = 0; s < sellers; s++)
+                decimal monthTotalCommission = 0;
+                var sellerDetailsForMonth = new List<SellerDetail>();
+                var vehicleDetailsForMonth = new List<VehicleDetail>();
+
+                // Para cada vendedor en el mes
+                for (int s = 0; s < request.Sellers; s++)
                 {
-                    int sales = DrawSales();
-                    totalCommission += CalculateForSales(sales);
+                    _clock++;
+                    double rndCantidad = _random.NextDouble();
+                    int sales = DrawSales(rndCantidad, request.SalesQuantityDistribution);
+                    
+                    var vehiclesForSeller = new List<VehicleDetail>();
+                    decimal sellerCommission = 0;
+
+                    // Calcular vehículos vendidos por este vendedor
+                    int baseCount = Math.Min(sales, 10);
+                    for (int v = 0; v < baseCount; v++)
+                    {
+                        _clock++;
+                        double rndTipo = _random.NextDouble();
+                        string tipoVehiculo = GetVehicleType(rndTipo, request.VehicleDistribution);
+                        
+                        double rndComision = _random.NextDouble();
+                        decimal comision = CalculateCommission(tipoVehiculo, rndComision);
+                        sellerCommission += comision;
+
+                        vehiclesForSeller.Add(new VehicleDetail
+                        {
+                            Id = $"V{v + 1}",
+                            RndTipoVehiculo = rndTipo,
+                            TipoVehiculo = tipoVehiculo,
+                            RndComision = rndComision,
+                            Comision = comision,
+                            Vendedor = $"Vendedor{s + 1}"
+                        });
+                    }
+
+                    // Bono si vendió más de 10
+                    if (sales > 10)
+                    {
+                        _clock++;
+                        sellerCommission += 6000m;
+                        vehiclesForSeller.Add(new VehicleDetail
+                        {
+                            Id = "Bono",
+                            RndTipoVehiculo = 0,
+                            TipoVehiculo = "Bono >10",
+                            RndComision = 0,
+                            Comision = 6000m,
+                            Vendedor = $"Vendedor{s + 1}"
+                        });
+                    }
+
+                    var sellerDetail = new SellerDetail
+                    {
+                        Id = $"Vendedor{s + 1}",
+                        RndCantidadVenta = rndCantidad,
+                        CantidadVentas = sales,
+                        AcumuladorComision = sellerCommission
+                    };
+
+                    sellerDetailsForMonth.Add(sellerDetail);
+                    vehicleDetailsForMonth.AddRange(vehiclesForSeller);
+                    monthTotalCommission += sellerCommission;
                 }
-                details.Add(new MonthlyDetail(m, totalCommission / sellers));
+
+                // Un evento por mes con los 3 vendedores
+                var monthEvent = new SimulationEvent
+                {
+                    Clk = _clock,
+                    Evento = $"Mes {m}",
+                    Vendedores = sellerDetailsForMonth,
+                    Vehiculos = vehicleDetailsForMonth
+                };
+                events.Add(monthEvent);
+
+                details.Add(new MonthlyDetail(m, monthTotalCommission / request.Sellers));
             }
+
             var avg = details.Average(d => d.Commission);
-            return new SimulationResult { Details = details, AveragePerSeller = avg };
+            return new SimulationResult
+            {
+                Details = details,
+                AveragePerSeller = avg,
+                Events = events
+            };
         }
 
-        private int DrawSales()
+        private void ValidateDistributions(VehicleDistribution vehicleDist, SalesQuantityDistribution salesDist)
         {
-            // distribution: <5:5%,5:4%,6:11%,7:15%,8:26%,9:18%,10:15%,>10:5%
-            double r = _random.NextDouble();
-            if (r < 0.05) return _random.Next(0,5); // <5
-            if (r < 0.09) return 5;
-            if (r < 0.20) return 6;
-            if (r < 0.35) return 7;
-            if (r < 0.61) return 8;
-            if (r < 0.79) return 9;
-            if (r < 0.94) return 10;
-            // >10: choose 11-15 perhaps
-            return 11 + _random.Next(0,5);
+            double vehicleSum = vehicleDist.ProbabilityCompacto + vehicleDist.ProbabilityModerno + vehicleDist.ProbabilityLujo;
+            if (Math.Abs(vehicleSum - 100) > 0.01)
+            {
+                throw new ArgumentException($"La suma de probabilidades de tipos de vehículo debe ser 100. Actual: {vehicleSum}");
+            }
+
+            double salesSum = salesDist.ProbabilityLessThan5 + salesDist.Probability5 + salesDist.Probability6 +
+                            salesDist.Probability7 + salesDist.Probability8 + salesDist.Probability9 +
+                            salesDist.Probability10 + salesDist.ProbabilityMoreThan10;
+            if (Math.Abs(salesSum - 100) > 0.01)
+            {
+                throw new ArgumentException($"La suma de probabilidades de cantidad de ventas debe ser 100. Actual: {salesSum}");
+            }
         }
 
-        private decimal CalculateForSales(int sales)
+        private int DrawSales(double r, SalesQuantityDistribution dist)
         {
-            if (sales < 5) return 0;
-            decimal commission = 0;
-            int baseCount = Math.Min(sales, 10);
-            for (int i = 0; i < baseCount; i++)
-            {
-                commission += CalculateSingle();
-            }
-            if (sales > 10)
-            {
-                commission += 6000m;
-            }
-            return commission;
+            double cumulative = 0;
+
+            cumulative += dist.ProbabilityLessThan5;
+            if (r < cumulative / 100) return _random.Next(0, 5);
+
+            cumulative += dist.Probability5;
+            if (r < cumulative / 100) return 5;
+
+            cumulative += dist.Probability6;
+            if (r < cumulative / 100) return 6;
+
+            cumulative += dist.Probability7;
+            if (r < cumulative / 100) return 7;
+
+            cumulative += dist.Probability8;
+            if (r < cumulative / 100) return 8;
+
+            cumulative += dist.Probability9;
+            if (r < cumulative / 100) return 9;
+
+            cumulative += dist.Probability10;
+            if (r < cumulative / 100) return 10;
+
+            return 11 + _random.Next(0, 5);
         }
 
-        private decimal CalculateSingle()
+        private string GetVehicleType(double r, VehicleDistribution dist)
         {
-            // choose type
-            double r = _random.NextDouble();
-            if (r < 0.5)
+            double compactoProb = dist.ProbabilityCompacto / 100;
+            double modernoProb = dist.ProbabilityModerno / 100;
+
+            if (r < compactoProb) return "Compacto";
+            if (r < compactoProb + modernoProb) return "Moderno";
+            return "Lujo";
+        }
+
+        private decimal CalculateCommission(string vehicleType, double r)
+        {
+            return vehicleType switch
             {
-                return 250m;
-            }
-            else if (r < 0.85)
-            {
-                // Mediano
-                double r2 = _random.NextDouble();
-                return r2 < 0.4 ? 400m : 500m;
-            }
-            else
-            {
-                // Lujo
-                double r2 = _random.NextDouble();
-                if (r2 < 0.35) return 1000m;
-                if (r2 < 0.75) return 1500m;
-                return 2000m;
-            }
+                "Compacto" => 250m,
+                "Moderno" => r < 0.4 ? 400m : 500m,
+                "Lujo" => r < 0.35 ? 1000m : r < 0.75 ? 1500m : 2000m,
+                _ => 0m
+            };
         }
     }
 }
