@@ -85,7 +85,7 @@ El componente `App.tsx` llama al API y muestra los 30 meses en una tabla y una g
 ### Ejecutar frontend
 
 ```bash
-cd frontend
+cd frontendS
 npm install
 npm run dev
 ```

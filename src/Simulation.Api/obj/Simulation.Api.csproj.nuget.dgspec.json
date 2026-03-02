@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.api\\Simulation.Api.csproj": {}
+    "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Api\\Simulation.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.api\\Simulation.Api.csproj": {
+    "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Api\\Simulation.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.api\\Simulation.Api.csproj",
+        "projectUniqueName": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Api\\Simulation.Api.csproj",
         "projectName": "Simulation.Api",
-        "projectPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.api\\Simulation.Api.csproj",
+        "projectPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Api\\Simulation.Api.csproj",
         "packagesPath": "C:\\Users\\nicoy\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.api\\obj\\",
+        "outputPath": "C:\\Users\\nicoy\\code\\final-sim-tp-2026\\src\\Simulation.Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nicoy\\AppData\\Roaming\\NuGet\\NuGet.Config",
