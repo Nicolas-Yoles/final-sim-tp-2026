@@ -6,7 +6,6 @@
         "**/*.exe": true,
         "**/*.pdb": true,
         "**/*.cache": true,
-        "**/*.editorconfig": true,
-        "**/node_modules/*": true
+        "**/*.editorconfig": true
     }
 }
