@@ -28,111 +28,107 @@ interface ResultsTableProps {
 }
 
 export function ResultsTable({ events }: ResultsTableProps) {
+  // 1. Encontrar el máximo de ventas para generar las columnas dinámicas
+  const maxSalesInSimulation = Math.max(
+    ...events.flatMap(e => e.vendedores.map(s => s.cantidadVentas)),
+    0
+  );
+
+  // Definimos los colores por vendedor para mantener la consistencia
+  const sellerStyles = [
+    { header: 'bg-blue-100', body: 'bg-blue-50' },
+    { header: 'bg-green-100', body: 'bg-green-50' },
+    { header: 'bg-yellow-100', body: 'bg-yellow-50' },
+  ];
+
   return (
     <div className="bg-white p-6 rounded-lg shadow overflow-x-auto">
       <h2 className="text-xl font-bold mb-4">Detalle de Simulación por Mes</h2>
-      <table className="w-full border-collapse text-sm">
+      <table className="w-full border-collapse text-sm table-auto">
         <thead className="bg-gray-100 sticky top-0">
+          {/* Fila Superior de Encabezado: Agrupación por Vendedor */}
           <tr>
-            <th className="border px-3 py-2 text-left" colSpan={6}>MES</th>
-            <th className="border px-3 py-2 text-left bg-blue-100" colSpan={7}>VENDEDOR 1</th>
-            <th className="border px-3 py-2 text-left bg-green-100" colSpan={7}>VENDEDOR 2</th>
-            <th className="border px-3 py-2 text-left bg-yellow-100" colSpan={7}>VENDEDOR 3</th>
+            <th className="border px-3 py-2 text-left bg-gray-200" colSpan={2}>TIEMPO</th>
+            {events[0]?.vendedores.map((seller, idx) => (
+              <th 
+                key={seller.id} 
+                className={`border px-3 py-2 text-center ${sellerStyles[idx]?.header}`}
+                colSpan={4 + (maxSalesInSimulation * 3)} // 4 fijos + (3 campos por vehículo * N ventas)
+              >
+                VENDEDOR: {seller.id}
+              </th>
+            ))}
           </tr>
+          {/* Fila Inferior de Encabezado: Detalle de Campos */}
           <tr>
-            <th className="border px-3 py-2 text-left">CLK</th>
+            <th className="border px-3 py-2 text-left">CLK (Mes)</th>
             <th className="border px-3 py-2 text-left">Evento</th>
-            <th className="border px-3 py-2 text-right">RND Cant</th>
-            <th className="border px-3 py-2 text-right">Cantidad</th>
-            <th className="border px-3 py-2 text-right">Acum. Com.</th>
-            <th className="border px-3 py-2 text-left">Vehículo</th>
-            {/* Columnas Vendedor 1 */}
-            <th className="border px-3 py-2 text-left bg-blue-50">Vendedor</th>
-            <th className="border px-3 py-2 text-right bg-blue-50">RND Cant</th>
-            <th className="border px-3 py-2 text-right bg-blue-50">Cantidad</th>
-            <th className="border px-3 py-2 text-right bg-blue-50">Acum. Com.</th>
-            <th className="border px-3 py-2 text-left bg-blue-50">Vehículo</th>
-            <th className="border px-3 py-2 text-left bg-blue-50">Tipo</th>
-            <th className="border px-3 py-2 text-right bg-blue-50">Comisión</th>
-            {/* Columnas Vendedor 2 */}
-            <th className="border px-3 py-2 text-left bg-green-50">Vendedor</th>
-            <th className="border px-3 py-2 text-right bg-green-50">RND Cant</th>
-            <th className="border px-3 py-2 text-right bg-green-50">Cantidad</th>
-            <th className="border px-3 py-2 text-right bg-green-50">Acum. Com.</th>
-            <th className="border px-3 py-2 text-left bg-green-50">Vehículo</th>
-            <th className="border px-3 py-2 text-left bg-green-50">Tipo</th>
-            <th className="border px-3 py-2 text-right bg-green-50">Comisión</th>
-            {/* Columnas Vendedor 3 */}
-            <th className="border px-3 py-2 text-left bg-yellow-50">Vendedor</th>
-            <th className="border px-3 py-2 text-right bg-yellow-50">RND Cant</th>
-            <th className="border px-3 py-2 text-right bg-yellow-50">Cantidad</th>
-            <th className="border px-3 py-2 text-right bg-yellow-50">Acum. Com.</th>
-            <th className="border px-3 py-2 text-left bg-yellow-50">Vehículo</th>
-            <th className="border px-3 py-2 text-left bg-yellow-50">Tipo</th>
-            <th className="border px-3 py-2 text-right bg-yellow-50">Comisión</th>
+            {events[0]?.vendedores.map((_, idx) => (
+              <React.Fragment key={`h-${idx}`}>
+                <th className={`border px-3 py-2 ${sellerStyles[idx]?.body}`}>RND Cant.</th>
+                <th className={`border px-3 py-2 ${sellerStyles[idx]?.body}`}>Cant. Ventas</th>
+                <th className={`border px-3 py-2 ${sellerStyles[idx]?.body}`}>Acum. Comisión</th>
+                <th className={`border px-3 py-2 font-bold ${sellerStyles[idx]?.body} border-r-2`}>Total Ventas</th>
+                {/* Columnas Dinámicas de Vehículos */}
+                {Array.from({ length: maxSalesInSimulation }).map((_, i) => (
+                  <React.Fragment key={`v-h-${i}`}>
+                    <th className="border px-2 py-1 bg-gray-50 italic">Vehículo {i + 1}</th>
+                    <th className="border px-2 py-1 bg-gray-50 italic">Tipo</th>
+                    <th className="border px-2 py-1 bg-gray-50 italic border-r-2">Comisión</th>
+                  </React.Fragment>
+                ))}
+              </React.Fragment>
+            ))}
           </tr>
         </thead>
         <tbody>
-          {events.map((event, eventIdx) => {
-            // Agrupar vehículos por vendedor
-            const sellerVehicles: { [key: string]: VehicleDetail[] } = {};
-            event.vendedores.forEach(seller => {
-              sellerVehicles[seller.id] = event.vehiculos.filter(v => v.vendedor === seller.id);
-            });
+          {events.map((event, eventIdx) => (
+            <tr key={eventIdx} className="hover:bg-gray-50 transition-colors">
+              <td className="border px-3 py-2 font-medium">{event.clk}</td>
+              <td className="border px-3 py-2">{event.evento}</td>
+              
+              {event.vendedores.map((seller, sIdx) => {
+                const vehicles = event.vehiculos.filter(v => v.vendedor === seller.id);
+                const bgClass = sellerStyles[sIdx]?.body;
 
-            const maxVehiclesPerSeller = Math.max(
-              ...event.vendedores.map(s => sellerVehicles[s.id]?.length || 0),
-              1
-            );
+                return (
+                  <React.Fragment key={seller.id}>
+                    {/* Datos Base del Vendedor */}
+                    <td className={`border px-3 py-2 text-right ${bgClass}`}>
+                      {seller.rndCantidadVenta.toFixed(4)}
+                    </td>
+                    <td className={`border px-3 py-2 text-center ${bgClass}`}>
+                      {seller.cantidadVentas}
+                    </td>
+                    <td className={`border px-3 py-2 text-right font-semibold ${bgClass}`}>
+                      ${seller.acumuladorComision.toLocaleString()}
+                    </td>
+                    <td className={`border px-3 py-2 text-center font-bold ${bgClass} border-r-2`}>
+                      {vehicles.length}
+                    </td>
 
-            return Array.from({ length: maxVehiclesPerSeller }).map((_, rowIdx) => (
-              <tr key={`${eventIdx}-${rowIdx}`} className={rowIdx % 2 === 0 ? 'bg-gray-50' : ''}>
-                {/* Columnas iniciales */}
-                <td className="border px-3 py-2">{rowIdx === 0 ? event.clk : ''}</td>
-                <td className="border px-3 py-2">{rowIdx === 0 ? event.evento : ''}</td>
-                <td className="border px-3 py-2 text-right"></td>
-                <td className="border px-3 py-2 text-right"></td>
-                <td className="border px-3 py-2 text-right"></td>
-                <td className="border px-3 py-2"></td>
-
-                {/* Para cada vendedor */}
-                {event.vendedores.map((seller, sellerIdx) => {
-                  const vehicles = sellerVehicles[seller.id] || [];
-                  const vehicle = vehicles[rowIdx];
-                  const bgClass = sellerIdx === 0 ? 'bg-blue-50' : sellerIdx === 1 ? 'bg-green-50' : 'bg-yellow-50';
-
-                  return (
-                    <React.Fragment key={`seller-${sellerIdx}`}>
-                      {/* Datos del vendedor (solo en primera fila) */}
-                      <td className={`border px-3 py-2 ${bgClass}`}>
-                        {rowIdx === 0 ? seller.id : ''}
-                      </td>
-                      <td className={`border px-3 py-2 text-right ${bgClass}`}>
-                        {rowIdx === 0 ? seller.rndCantidadVenta.toFixed(4) : ''}
-                      </td>
-                      <td className={`border px-3 py-2 text-right ${bgClass}`}>
-                        {rowIdx === 0 ? seller.cantidadVentas : ''}
-                      </td>
-                      <td className={`border px-3 py-2 text-right font-bold ${bgClass}`}>
-                        {rowIdx === 0 ? `$${seller.acumuladorComision.toFixed(2)}` : ''}
-                      </td>
-
-                      {/* Datos del vehículo */}
-                      <td className={`border px-3 py-2 ${bgClass}`}>
-                        {vehicle ? vehicle.id : ''}
-                      </td>
-                      <td className={`border px-3 py-2 ${bgClass}`}>
-                        {vehicle ? vehicle.tipoVehiculo : ''}
-                      </td>
-                      <td className={`border px-3 py-2 text-right font-bold ${bgClass}`}>
-                        {vehicle ? `$${vehicle.comision.toFixed(2)}` : ''}
-                      </td>
-                    </React.Fragment>
-                  );
-                })}
-              </tr>
-            ));
-          })}
+                    {/* Renderizado de Vehículos vendidos en el mes */}
+                    {Array.from({ length: maxSalesInSimulation }).map((_, vIdx) => {
+                      const v = vehicles[vIdx];
+                      return (
+                        <React.Fragment key={vIdx}>
+                          <td className="border px-2 py-1 text-xs text-gray-600">
+                            {v ? v.id : '-'}
+                          </td>
+                          <td className="border px-2 py-1 text-xs">
+                            {v ? v.tipoVehiculo : '-'}
+                          </td>
+                          <td className="border px-2 py-1 text-xs text-right border-r-2">
+                            {v ? `$${v.comision.toFixed(2)}` : '-'}
+                          </td>
+                        </React.Fragment>
+                      );
+                    })}
+                  </React.Fragment>
+                );
+              })}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
