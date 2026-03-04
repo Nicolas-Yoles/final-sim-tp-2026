@@ -68,12 +68,13 @@ export function ResultsTable({ events }: ResultsTableProps) {
                 <th className={`border px-3 py-2 ${sellerStyles[idx]?.body}`}>RND Cant.</th>
                 <th className={`border px-3 py-2 ${sellerStyles[idx]?.body}`}>Cant. Ventas</th>
                 <th className={`border px-3 py-2 ${sellerStyles[idx]?.body}`}>Acum. Comisión</th>
-                <th className={`border px-3 py-2 font-bold ${sellerStyles[idx]?.body} border-r-2`}>Total Ventas</th>
                 {/* Columnas Dinámicas de Vehículos */}
                 {Array.from({ length: maxSalesInSimulation }).map((_, i) => (
                   <React.Fragment key={`v-h-${i}`}>
                     <th className="border px-2 py-1 bg-gray-50 italic">Vehículo {i + 1}</th>
+                    <th className="border px-2 py-1 bg-gray-50 italic">rndTipo</th>
                     <th className="border px-2 py-1 bg-gray-50 italic">Tipo</th>
+                    <th className="border px-2 py-1 bg-gray-50 italic border-r-2">rndComisión</th>
                     <th className="border px-2 py-1 bg-gray-50 italic border-r-2">Comisión</th>
                   </React.Fragment>
                 ))}
@@ -103,9 +104,6 @@ export function ResultsTable({ events }: ResultsTableProps) {
                     <td className={`border px-3 py-2 text-right font-semibold ${bgClass}`}>
                       ${seller.acumuladorComision.toLocaleString()}
                     </td>
-                    <td className={`border px-3 py-2 text-center font-bold ${bgClass} border-r-2`}>
-                      {vehicles.length}
-                    </td>
 
                     {/* Renderizado de Vehículos vendidos en el mes */}
                     {Array.from({ length: maxSalesInSimulation }).map((_, vIdx) => {
@@ -116,7 +114,13 @@ export function ResultsTable({ events }: ResultsTableProps) {
                             {v ? v.id : '-'}
                           </td>
                           <td className="border px-2 py-1 text-xs">
+                            {v ? v.rndTipoVehiculo.toFixed(2) : '-'}
+                          </td>
+                          <td className="border px-2 py-1 text-xs">
                             {v ? v.tipoVehiculo : '-'}
+                          </td>
+                          <td className="border px-2 py-1 text-xs text-right border-r-2">
+                            {v ? v.rndComision.toFixed(2) : '-'}
                           </td>
                           <td className="border px-2 py-1 text-xs text-right border-r-2">
                             {v ? `$${v.comision.toFixed(2)}` : '-'}
