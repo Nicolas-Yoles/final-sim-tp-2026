@@ -47,7 +47,7 @@ function App() {
     sellers: number;
     vehicleDistribution: {
       probabilityCompacto: number;
-      probabilityModerno: number;
+      probabilityMediano: number;
       probabilityLujo: number;
     };
     salesQuantityDistribution: {
@@ -68,7 +68,7 @@ function App() {
         sellers: params.sellers,
         vehicleDistribution: {
           probabilityCompacto: params.vehicleDistribution.probabilityCompacto,
-          probabilityModerno: params.vehicleDistribution.probabilityModerno,
+          probabilityMediano: params.vehicleDistribution.probabilityMediano,
           probabilityLujo: params.vehicleDistribution.probabilityLujo,
         },
         salesQuantityDistribution: {
@@ -133,14 +133,14 @@ function App() {
               </div>
             </div>
 
-            {data && (
+            {/* {data && (
               <div className="bg-white p-6 rounded-lg shadow mb-6">
                 <h2 className="text-xl font-bold mb-4">Gráfico de Tendencia</h2>
                 <Line data={data} options={{ responsive: true, maintainAspectRatio: true }} />
               </div>
-            )}
+            )} */}
 
-            <div className="bg-white p-6 rounded-lg shadow mb-6">
+            {/* <div className="bg-white p-6 rounded-lg shadow mb-6">
               <h2 className="text-xl font-bold mb-4">Resumen por Mes</h2>
               <table className="w-full border-collapse">
                 <thead className="bg-gray-100">
@@ -158,7 +158,7 @@ function App() {
                   ))}
                 </tbody>
               </table>
-            </div>
+            </div> */}
 
             <ResultsTable events={result.events} />
           </>

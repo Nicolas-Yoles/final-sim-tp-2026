@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface VehicleDistribution {
   probabilityCompacto: number;
-  probabilityModerno: number;
+  probabilityMediano: number;
   probabilityLujo: number;
 }
 
@@ -34,7 +34,7 @@ export function SimulationParams({ onRun, onClear, isLoading }: SimulationParams
   
   const [vehicleDistribution, setVehicleDistribution] = useState<VehicleDistribution>({
     probabilityCompacto: 50,
-    probabilityModerno: 35,
+    probabilityMediano: 35,
     probabilityLujo: 15,
   });
 
@@ -50,7 +50,7 @@ export function SimulationParams({ onRun, onClear, isLoading }: SimulationParams
   });
 
   const vehicleSum = vehicleDistribution.probabilityCompacto + 
-                     vehicleDistribution.probabilityModerno + 
+                     vehicleDistribution.probabilityMediano + 
                      vehicleDistribution.probabilityLujo;
 
   const salesSum = salesDistribution.probabilityLessThan5 +
@@ -116,6 +116,7 @@ export function SimulationParams({ onRun, onClear, isLoading }: SimulationParams
       </div>
 
       <div>
+        <br />
         <h3 className="text-lg font-bold mb-3">Distribución de Tipos de Vehículos</h3>
         <p className="text-xs text-gray-600 mb-3">Los valores deben sumar 100%</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-2">
@@ -135,14 +136,14 @@ export function SimulationParams({ onRun, onClear, isLoading }: SimulationParams
           </div>
           <div>
             <label className="block text-sm font-medium mb-2">
-              Moderno: <span className={vehicleSum === 100 ? "font-bold text-green-600" : "font-bold text-red-600"}>{vehicleDistribution.probabilityModerno}%</span>
+              Mediano: <span className={vehicleSum === 100 ? "font-bold text-green-600" : "font-bold text-red-600"}>{vehicleDistribution.probabilityMediano}%</span>
             </label>
             <input
               type="number"
               min="0"
               max="100"
-              value={vehicleDistribution.probabilityModerno}
-              onChange={(e) => handleVehicleChange('probabilityModerno', Number(e.target.value))}
+              value={vehicleDistribution.probabilityMediano}
+              onChange={(e) => handleVehicleChange('probabilityMediano', Number(e.target.value))}
               className="w-full border px-2 py-1"
               disabled={isLoading}
             />
@@ -168,6 +169,7 @@ export function SimulationParams({ onRun, onClear, isLoading }: SimulationParams
       </div>
 
       <div>
+        <br />
         <h3 className="text-lg font-bold mb-3">Distribución de Cantidad de Ventas</h3>
         <p className="text-xs text-gray-600 mb-3">Los valores deben sumar 100%</p>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-2">
@@ -276,6 +278,7 @@ export function SimulationParams({ onRun, onClear, isLoading }: SimulationParams
       </div>
 
       <div className="flex gap-4">
+        <br />
         <button
           onClick={handleRun}
           disabled={isLoading || vehicleSum !== 100 || salesSum !== 100}

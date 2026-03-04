@@ -31,7 +31,7 @@ namespace Simulation.Domain
     public record VehicleDistribution
     {
         public double ProbabilityCompacto { get; init; } = 50; // %
-        public double ProbabilityModerno { get; init; } = 35;  // %
+        public double ProbabilityMediano { get; init; } = 35;  // %
         public double ProbabilityLujo { get; init; } = 15;     // %
     }
 

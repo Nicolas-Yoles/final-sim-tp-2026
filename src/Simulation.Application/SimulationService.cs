@@ -113,7 +113,7 @@ namespace Simulation.Application
 
         private void ValidateDistributions(VehicleDistribution vehicleDist, SalesQuantityDistribution salesDist)
         {
-            double vehicleSum = vehicleDist.ProbabilityCompacto + vehicleDist.ProbabilityModerno + vehicleDist.ProbabilityLujo;
+            double vehicleSum = vehicleDist.ProbabilityCompacto + vehicleDist.ProbabilityMediano + vehicleDist.ProbabilityLujo;
             if (Math.Abs(vehicleSum - 100) > 0.01)
             {
                 throw new ArgumentException($"La suma de probabilidades de tipos de vehículo debe ser 100. Actual: {vehicleSum}");
@@ -159,10 +159,10 @@ namespace Simulation.Application
         private string GetVehicleType(double r, VehicleDistribution dist)
         {
             double compactoProb = dist.ProbabilityCompacto / 100;
-            double modernoProb = dist.ProbabilityModerno / 100;
+            double medianoProb = dist.ProbabilityMediano / 100;
 
             if (r < compactoProb) return "Compacto";
-            if (r < compactoProb + modernoProb) return "Moderno";
+            if (r < compactoProb + medianoProb) return "Mediano";
             return "Lujo";
         }
 
@@ -171,7 +171,7 @@ namespace Simulation.Application
             return vehicleType switch
             {
                 "Compacto" => 250m,
-                "Moderno" => r < 0.4 ? 400m : 500m,
+                "Mediano" => r < 0.4 ? 400m : 500m,
                 "Lujo" => r < 0.35 ? 1000m : r < 0.75 ? 1500m : 2000m,
                 _ => 0m
             };

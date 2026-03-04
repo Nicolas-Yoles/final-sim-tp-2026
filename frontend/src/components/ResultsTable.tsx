@@ -48,7 +48,7 @@ export function ResultsTable({ events }: ResultsTableProps) {
         <thead className="bg-gray-100 sticky top-0">
           {/* Fila Superior de Encabezado: Agrupación por Vendedor */}
           <tr>
-            <th className="border px-3 py-2 text-left bg-gray-200" colSpan={2}>TIEMPO</th>
+            <th className="border px-3 py-2 text-left bg-gray-200" colSpan={1}></th>
             {events[0]?.vendedores.map((seller, idx) => (
               <th 
                 key={seller.id} 
@@ -61,7 +61,7 @@ export function ResultsTable({ events }: ResultsTableProps) {
           </tr>
           {/* Fila Inferior de Encabezado: Detalle de Campos */}
           <tr>
-            <th className="border px-3 py-2 text-left">CLK (Mes)</th>
+            {/* <th className="border px-3 py-2 text-left">CLK (Mes)</th> */}
             <th className="border px-3 py-2 text-left">Evento</th>
             {events[0]?.vendedores.map((_, idx) => (
               <React.Fragment key={`h-${idx}`}>
@@ -84,7 +84,7 @@ export function ResultsTable({ events }: ResultsTableProps) {
         <tbody>
           {events.map((event, eventIdx) => (
             <tr key={eventIdx} className="hover:bg-gray-50 transition-colors">
-              <td className="border px-3 py-2 font-medium">{event.clk}</td>
+              {/* <td className="border px-3 py-2 font-medium">{event.clk}</td> */}
               <td className="border px-3 py-2">{event.evento}</td>
               
               {event.vendedores.map((seller, sIdx) => {
@@ -121,6 +121,9 @@ export function ResultsTable({ events }: ResultsTableProps) {
                           <td className="border px-2 py-1 text-xs text-right border-r-2">
                             {v ? `$${v.comision.toFixed(2)}` : '-'}
                           </td>
+                          {/* <td className="border px-2 py-1 text-xs text-right border-r-2">
+                            {v ? v.vendedor.toString() : '-'}
+                          </td> */}
                         </React.Fragment>
                       );
                     })}
